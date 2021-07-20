@@ -26,7 +26,7 @@ class PasswordResetsController < ApplicationController
     if params[:user][:password].empty?
       @user.errors.add(:password, :blank)
       render 'edit'
-    elsif @user.update_attribute(user_params)
+    elsif @user.update_attributes(user_params)
       log_in @user
       flash[:success] = "Password has been reset."
       redirect_to @user
@@ -47,7 +47,7 @@ class PasswordResetsController < ApplicationController
 
     def valid_user
       unless (@user && @user.activated? &&
-              @user.authentivated?(:reset, params[:id]))
+              @user.authenticated?(:reset, params[:id]))
         redirect_to root_url
       end
     end
